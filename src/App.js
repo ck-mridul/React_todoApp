@@ -11,6 +11,7 @@ function App() {
   });
   
   const [toDo,setToDo] = useState('')
+  const [state, setstate] = useState(false);
 
   useEffect(()=>{
     localStorage.setItem("Todos",JSON.stringify(toDos));
@@ -30,27 +31,36 @@ function App() {
         <i onClick={()=>{
           const textExists = toDos.some(todo=> todo.text === toDo);
           if(!textExists){
-          setToDos([...toDos,{id: Date.now(), text: toDo,status:false}])}else{ console.log("Text already exists!");
+            if(toDo.length===0){
+              return <h4>hi</h4>
+            }else{
+              setToDos([...toDos,{id: Date.now(), text: toDo,status:false}])
+            }
+          }else{ alert(toDo+" already exists!");
         }}} className="fas fa-plus"></i>
       </div>
+      <br/>
+      <h4 onClick={()=>{
+        setToDos([])
+      }}>clear all task</h4>
+
       
       <br/><br/>
-      <h4>Active Task</h4>
+  {toDos.length > 0 ? <h4>Active Task</h4>: <h4>No Task</h4>}
       <div className="todos">
         { toDos.map((value,index)=>{
           return(
           <div key={index} className="todo">
           <div className="left">
             <input onChange={(e)=>{
-              console.log(e.target.checked)
-              console.log(value)
+           
               setToDos(toDos.filter(obj=>{
                 if (obj.id===value.id){
                   obj.status=e.target.checked
                 }
                 return obj
               }))
-              }} value={value.status} type="checkbox" name="" id="" />
+              }} value={true} type="checkbox" name="" id="" />
             <p>{value.text}</p>
           </div>
           <div className="right">
@@ -61,12 +71,15 @@ function App() {
           </div>
         </div>
         )})}
-        {toDos.map((obj,index)=>{
+<br/><br/>
+    <h4 onClick={()=>setstate(!state)}>Complited Task</h4>
+        {state && toDos.map((obj,index)=>{
           if(obj.status){
-            return(<h1 key={index} >{obj.text}</h1>)
+            return(<h3 key={index} >{obj.text}</h3>)
           }
           return null
-        })}
+        })
+        }
       </div>
     </div>
   );
