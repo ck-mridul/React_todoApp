@@ -35,6 +35,7 @@ function App() {
               return <h4>hi</h4>
             }else{
               setToDos([...toDos,{id: Date.now(), text: toDo,status:false}])
+              setToDo("")
             }
           }else{ alert(toDo+" already exists!");
         }}} className="fas fa-plus"></i>
@@ -60,7 +61,7 @@ function App() {
                 }
                 return obj
               }))
-              }} value={true} type="checkbox" name="" id="" />
+              }} checked={value.status} type="checkbox" name="" id="" />
             <p>{value.text}</p>
           </div>
           <div className="right">
